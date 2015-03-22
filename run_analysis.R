@@ -60,3 +60,7 @@ for (s in 1:numSubj) {
   }
 }
 write.table(result, "averages.txt", row.name=FALSE)
+
+# to print out the averages execute the following code
+# data <- read.table("./averages.txt")
+# data[1:12, 1:3]
