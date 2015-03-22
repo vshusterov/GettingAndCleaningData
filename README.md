@@ -11,6 +11,5 @@ Source data: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%
 
 (4) Execute the script by running the following code: source("run_analysis.R")
 
-(5) data_set_with_averages.txt file will be created in the working directory and will contain the output.
+(5) A file called averages.txt file will be created in the working directory and will contain the output.
 
-Use data <- read.table("data_set_with_the_averages.txt") to read the data. It is 180x68 because there are 30 subjects and 6 activities, thus "for each activity and each subject" means 30 * 6 = 180 rows. Note that the provided R script has no assumptions on numbers of records, only on locations of files.
