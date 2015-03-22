@@ -1,20 +1,25 @@
-# This R script does the following:
+# This R Script does the following
+# 1. Merges the training and the test sets to create one data set.
+# 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
+# 3. Uses descriptive activity names to name the activities in the data set
+# 4. Appropriately labels the data set with descriptive variable names. 
+# 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-# 1. Merges the training and the test data sets into one.
+# 1. Merges the training and the test sets to create one data set.
 
-temp1 <- read.table("train/X_train.txt")
-temp2 <- read.table("test/X_test.txt")
-X <- rbind(temp1, temp2)
+x_train<- read.table("./train/X_train.txt")
+x_test <- read.table("./test/X_test.txt")
+X <- rbind(x_train, x_test)
 
-temp1 <- read.table("train/subject_train.txt")
-temp2 <- read.table("test/subject_test.txt")
-S <- rbind(temp1, temp2)
+s_train <- read.table("./train/subject_train.txt")
+s_test <- read.table("./test/subject_test.txt")
+S <- rbind(s_train, s_test)
 
-temp1 <- read.table("train/y_train.txt")
-temp2 <- read.table("test/y_test.txt")
-Y <- rbind(temp1, temp2)
+y_train <- read.table("./train/y_train.txt")
+y_test <- read.table("./test/y_test.txt")
+Y <- rbind(y_train, y_test)
 
-# 2. Extracts the mean and standard deviation for each measurement. 
+# 2. Extracts only the measurements on the mean and standard deviation for each measurement.  
 
 features <- read.table("features.txt")
 indices_of_good_features <- grep("-mean\\(\\)|-std\\(\\)", features[, 2])
@@ -23,20 +28,20 @@ names(X) <- features[indices_of_good_features, 2]
 names(X) <- gsub("\\(|\\)", "", names(X))
 names(X) <- tolower(names(X))
 
-# 3. Uses descriptive activity names to name the activities in the data set.
+# 3. Uses descriptive activity names to name the activities in the data set
 
 activities <- read.table("activity_labels.txt")
 activities[, 2] = gsub("_", "", tolower(as.character(activities[, 2])))
 Y[,1] = activities[Y[,1], 2]
 names(Y) <- "activity"
 
-# 4. Labels the data set with descriptive activity names.
+# 4. Appropriately labels the data set with descriptive variable names. 
 
 names(S) <- "subject"
 cleaned <- cbind(S, Y, X)
 write.table(cleaned, "merged_clean_data.txt")
 
-# 5. Creates a tidy data set with the average of each variable for each activity and each subject.
+# 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 uniqSubj = unique(S)[,1]
 numSubj = length(unique(S)[,1])
@@ -54,4 +59,4 @@ for (s in 1:numSubj) {
     row = row+1
   }
 }
-write.table(result, "data_set_with_the_averages.txt", row.name=FALSE)
+write.table(result, "averages.txt", row.name=FALSE)
