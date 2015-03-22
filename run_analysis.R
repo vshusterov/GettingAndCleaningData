@@ -1,6 +1,6 @@
 # This R script does the following:
 
-# 1. Merges the training and the test data to create one data set.
+# 1. Merges the training and the test data sets into one.
 
 temp1 <- read.table("train/X_train.txt")
 temp2 <- read.table("test/X_test.txt")
@@ -36,9 +36,9 @@ names(S) <- "subject"
 cleaned <- cbind(S, Y, X)
 write.table(cleaned, "merged_clean_data.txt")
 
-# 5. Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject.
+# 5. Creates a tidy data set with the average of each variable for each activity and each subject.
 
-uniqSubjects = unique(S)[,1]
+uniqSubj = unique(S)[,1]
 numSubj = length(unique(S)[,1])
 numActiv = length(activities[,1])
 numCols = dim(cleaned)[2]
@@ -47,7 +47,7 @@ result = cleaned[1:(numSubj*numActiv), ]
 row = 1
 for (s in 1:numSubj) {
   for (a in 1:numActiv) {
-    result[row, 1] = uniqSubjects[s]
+    result[row, 1] = uniqSubj[s]
     result[row, 2] = activities[a, 2]
     tmp <- cleaned[cleaned$subject==s & cleaned$activity==activities[a, 2], ]
     result[row, 3:numCols] <- colMeans(tmp[, 3:numCols])
